@@ -18,7 +18,11 @@ var Track = function(looper){
 
     var currentSourceNode = null;
 
+    var scheduledSourceNodes = [];
+
     var gain = 100;
+
+    var pitch = 1;
 
     var playing = false;
 
@@ -29,6 +33,8 @@ var Track = function(looper){
     var buffer = null;
 
     var bufferBuilt = false;
+
+    var lastPlayTime = 0;
 
     // Methods
 
@@ -69,21 +75,14 @@ var Track = function(looper){
     }
 
     this.stopRecording = function(callback, scope){
-
         if (!this.isRecording()) return;
-
         recorder.stop();
-
         recording = false;
-
         bufferBuilt = false;
-
         bufferCreatedCallback = (callback)? callback.bind(scope) : function(){
-            console.warn("No callback specified for stopRecording");
+            console.warn("No callback specified for stopRecording. Doing nothing...");
         };
-
         recorder.getBuffer(buildBuffer.bind(this));
-
     }
 
     this.startPlaying = function(when){
@@ -92,23 +91,33 @@ var Track = function(looper){
 
         // API limitation, this node has to be created every time
         currentSourceNode = sourceNodes.splice(0, 1)[0];
-        console.log(buffer);
         currentSourceNode.buffer = buffer;
-        console.log("Starting: "+when);
         currentSourceNode.connect(this.getDestination());
+        scheduledSourceNodes.push(currentSourceNode); // TODO Remember to stop all the scheduled nodes when registering a new sound
+        currentSourceNode.playbackRate.value = pitch; // Set the pitch
+        // console.log("Delay to play "+(performance.now() - debug.startTime));
+        //console.log("Now is "+context.currentTime+", Playing at "+when);
         currentSourceNode.start((when)? when : 0);
+
+        // TODO Remember to disconnect the node once it's done playing, otherwise memory leak! There's a reference from the context
 
         playing = true;
 
+        lastPlayTime = when;
+
         // Create new nodes if we're running out of them
         // TODO Find a good tradeoff (make it configurable)
-        console.log("Remaining nodes: "+sourceNodes.length, "Maximum nodes: "+Track.MAX_SOURCE_NODES);
+        // console.log("Remaining nodes: "+sourceNodes.length, "Maximum nodes: "+Track.MAX_SOURCE_NODES);
         if (sourceNodes.length < (Track.MAX_SOURCE_NODES) / 2){
-            console.log("Creating new nodes");
+            // console.log("Creating new nodes");
             for (var i = 0; i < (Track.MAX_SOURCE_NODES - sourceNodes.length); i++){
                 sourceNodes.push(context.createBufferSource());
             }
         }
+    }
+
+    this.getLastPlayTime = function(){
+        return lastPlayTime;
     }
 
     this.stopPlaying = function(){
@@ -117,6 +126,12 @@ var Track = function(looper){
             currentSourceNode.stop(0);
             currentSourceNode = null;
         }
+
+        for (var i = 0; i < scheduledSourceNodes.length; i++){
+            scheduledSourceNodes[i].stop(0);
+        }
+
+        scheduledSourceNodes = [];
 
         playing = false;
     }
@@ -131,6 +146,14 @@ var Track = function(looper){
 
     this.buildBuffer = function(){
 
+    }
+
+    this.getDuration = function(){
+        return buffer.duration;
+    }
+
+    this.setPitch = function(newPitch){
+        pitch = newPitch;
     }
 
     // Constructor

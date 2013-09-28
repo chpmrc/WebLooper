@@ -6,8 +6,9 @@
  * To change this template use File | Settings | File Templates.
  */
 
+var debug = {};
 
-const MEASURE_SIZE = 2;
+const MEASURE_SIZE = 8;
 
 var uiManager = new UIManager();
 

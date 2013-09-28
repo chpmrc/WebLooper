@@ -51,7 +51,11 @@ var UIManager = function(){
         }
     }
 
+    // From UI events
+
     window.addEventListener('keypress', function(e){
+
+        debug.startTime = performance.now();
 
         var data = {};
 
@@ -68,4 +72,60 @@ var UIManager = function(){
         }
 
     }.bind(this));
+
+    // To UI events
+
+    /**
+     * All the keys that are currently down
+     */
+
+    var ledSrc = {
+        green :  'resources/ui/ledgreen.png',
+        black :  'resources/ui/ledblack.png',
+        red :  'resources/ui/ledred.png'
+    };
+
+    var trackStatuses = {
+        recording : 'label-important',
+        playing : 'label-success',
+        disabled : ''
+    };
+
+    var loopLed = document.querySelector('#loop-led');
+    var beatLed = document.querySelector('#beat-led');
+    var trackLabels = document.querySelectorAll('.track-status span');
+    var trackSliders = document.querySelectorAll('.track-container input');
+
+    window.addEventListener('loop', function(e){
+        loopLed.src = ledSrc.green;
+        setTimeout(function(){
+            loopLed.src = ledSrc.black;
+        }, 100);
+    });
+
+    window.addEventListener('beat', function(e){
+        beatLed.src = ledSrc.red;
+        setTimeout(function(){
+            beatLed.src = ledSrc.black;
+        }, 100);
+    });
+
+
+    window.addEventListener('playing', function(e){
+        var trackNumber = e.detail.trackNumber;
+        var statusIndex = trackNumber - 1; // In the dom tracks are 0...n-1
+        var trackLabel = trackLabels[statusIndex];
+
+        trackLabel.classList.remove(trackLabel.classList[1]);
+        trackLabel.classList.toggle(trackStatuses.playing);
+    });
+
+    window.addEventListener('recording', function(e){
+        var trackNumber = e.detail.trackNumber;
+        var statusIndex = trackNumber- 1; // In the dom tracks are 0...n-1
+        var trackLabel = trackLabels[statusIndex];
+
+        trackLabel.classList.remove(trackLabel.classList[1]);
+        trackLabel.classList.toggle(trackStatuses.recording);
+    });
 }
