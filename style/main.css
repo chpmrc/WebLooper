@@ -1,0 +1,64 @@
+h1, h5 {
+    text-align: center;
+}
+
+.label {
+    display: block;
+    margin: 1em 1em 1em 1em;
+}
+
+div.container {
+    margin-top: 2%;
+    border-radius: 10px;
+    width: 70%;
+    height: 40%;
+    display:-webkit-box; /* TODO Make compatible */
+    -webkit-box-pack:center;
+    -webkit-box-align:center;
+    /* Auto generated */
+    background-image: linear-gradient(bottom, rgb(148,148,148) 5%, rgb(235,235,235) 100%, rgb(255,255,255) 77%);
+    background-image: -o-linear-gradient(bottom, rgb(148,148,148) 5%, rgb(235,235,235) 100%, rgb(255,255,255) 77%);
+    background-image: -moz-linear-gradient(bottom, rgb(148,148,148) 5%, rgb(235,235,235) 100%, rgb(255,255,255) 77%);
+    background-image: -webkit-linear-gradient(bottom, rgb(148,148,148) 5%, rgb(235,235,235) 100%, rgb(255,255,255) 77%);
+    background-image: -ms-linear-gradient(bottom, rgb(148,148,148) 5%, rgb(235,235,235) 100%, rgb(255,255,255) 77%);
+
+    background-image: -webkit-gradient(
+        linear,
+        right bottom,
+        right top,
+        color-stop(0.05, rgb(148,148,148)),
+        color-stop(1, rgb(235,235,235)),
+        color-stop(0.77, rgb(255,255,255))
+    );
+}
+
+div.track-container {
+    margin-left: 3em;
+    margin-right: 3em;
+    width: auto;
+    float: left;
+    text-align: center;
+}
+
+/* Number of the track */
+.track-status {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.led {
+    width: 32px;
+    height: 32px;
+}
+
+div.track-container input {
+    -webkit-appearance: slider-vertical;
+    width: 5em;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+footer {
+    width: 50%;
+    margin: 1em auto 1em auto;
+}
