@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="0bb121d4-0f68-453f-b6ec-33931b1e49ea" name="Default" comment="" />
+    <list default="true" id="0bb121d4-0f68-453f-b6ec-33931b1e49ea" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/WebRTC.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/client.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Application.js" afterPath="$PROJECT_DIR$/Application.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Looper.js" afterPath="$PROJECT_DIR$/Looper.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Track.js" afterPath="$PROJECT_DIR$/Track.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/UIManager.js" afterPath="$PROJECT_DIR$/UIManager.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.html" afterPath="$PROJECT_DIR$/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/style/main.css" afterPath="$PROJECT_DIR$/style/main.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+    </list>
     <ignored path="WebLooper.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -23,37 +33,46 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/index.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="81" column="27" selection-start="2961" selection-end="2961" vertical-scroll-proportion="0.0" vertical-offset="1215" max-vertical-offset="1395">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="Application.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Application.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="15" column="17" selection-start="281" selection-end="281" vertical-scroll-proportion="0.0" vertical-offset="225" max-vertical-offset="345">
+            <state line="52" column="6" selection-start="1091" selection-end="1091" vertical-scroll-proportion="0.0" vertical-offset="380" max-vertical-offset="944">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="UIManager.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/UIManager.js">
+      <file leaf-file-name="client.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/client.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="55" column="12" selection-start="1117" selection-end="1117" vertical-scroll-proportion="0.0" vertical-offset="825" max-vertical-offset="1140">
+            <state line="27" column="46" selection-start="812" selection-end="812" vertical-scroll-proportion="-10.04" vertical-offset="181" max-vertical-offset="944">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Looper.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/index.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="60" column="28" selection-start="2288" selection-end="2288" vertical-scroll-proportion="-19.2" vertical-offset="480" max-vertical-offset="1520">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="main.css" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/style/main.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="46" column="21" selection-start="1371" selection-end="1371" vertical-scroll-proportion="0.0" vertical-offset="288" max-vertical-offset="1280">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Looper.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Looper.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="61" column="27" selection-start="1200" selection-end="1200" vertical-scroll-proportion="-0.33653846" vertical-offset="1125" max-vertical-offset="2445">
+            <state line="281" column="33" selection-start="7033" selection-end="7033" vertical-scroll-proportion="0.0" vertical-offset="4729" max-vertical-offset="5424">
               <folding />
             </state>
           </provider>
@@ -62,7 +81,16 @@
       <file leaf-file-name="Track.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Track.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="81" column="68" selection-start="1710" selection-end="1710" vertical-scroll-proportion="0.0" vertical-offset="838" max-vertical-offset="2235">
+            <state line="90" column="22" selection-start="1781" selection-end="1781" vertical-scroll-proportion="0.0" vertical-offset="2956" max-vertical-offset="3520">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="UIManager.js" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/UIManager.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="186" column="8" selection-start="5062" selection-end="5062" vertical-scroll-proportion="0.8865248" vertical-offset="2476" max-vertical-offset="3104">
               <folding />
             </state>
           </provider>
@@ -75,22 +103,36 @@
       <setting name="OPEN_NEW_TAB" value="false" />
     </FindUsagesManager>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitLogSettings">
+    <option name="myDateState">
+      <MyDateState />
+    </option>
+  </component>
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/index.html" />
-        <option value="$PROJECT_DIR$/UIManager.js" />
+        <option value="$USER_HOME$/Projects/weblooper/index.html" />
+        <option value="$PROJECT_DIR$/WebRTC.js" />
+        <option value="$USER_HOME$/Projects/WebstormProjects/WebLooper/style/main.css" />
+        <option value="$USER_HOME$/Projects/WebstormProjects/WebLooper/index.html" />
+        <option value="$PROJECT_DIR$/client.html" />
+        <option value="$PROJECT_DIR$/style/main.css" />
         <option value="$PROJECT_DIR$/Application.js" />
+        <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/Track.js" />
         <option value="$PROJECT_DIR$/Looper.js" />
+        <option value="$PROJECT_DIR$/UIManager.js" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="54" />
-    <option name="y" value="24" />
-    <option name="width" value="1313" />
-    <option name="height" value="771" />
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
+    <option name="width" value="1382" />
+    <option name="height" value="744" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -100,7 +142,37 @@
             <id />
           </State>
           <State>
+            <id>CSS</id>
+          </State>
+          <State>
+            <id>Code style issuesJavaScript</id>
+          </State>
+          <State>
+            <id>Control flow issuesJavaScript</id>
+          </State>
+          <State>
+            <id>JavaScript</id>
+          </State>
+          <State>
+            <id>JavaScript function metricsJavaScript</id>
+          </State>
+          <State>
+            <id>JavaScript validity issuesJavaScript</id>
+          </State>
+          <State>
+            <id>Portability issues</id>
+          </State>
+          <State>
+            <id>Potentially confusing code constructsJavaScript</id>
+          </State>
+          <State>
+            <id>Probable bugsJavaScript</id>
+          </State>
+          <State>
             <id>Spelling</id>
+          </State>
+          <State>
+            <id>XPath</id>
           </State>
         </expanded-state>
         <selected-state>
@@ -111,7 +183,7 @@
       </profile-state>
     </entry>
   </component>
-  <component name="ProjectLevelVcsManager" settingsEditedManually="false">
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
     <OptionsSetting value="true" id="Remove" />
     <OptionsSetting value="true" id="Checkout" />
@@ -125,7 +197,7 @@
     <option name="STATE" value="0" />
   </component>
   <component name="ProjectView">
-    <navigator proportions="" version="1" splitterProportion="0.5">
+    <navigator currentView="ProjectPane" proportions="" version="1" splitterProportion="0.5">
       <flattenPackages />
       <showMembers />
       <showModules />
@@ -136,31 +208,66 @@
       <autoscrollFromSource />
       <sortByType />
     </navigator>
-    <panes />
+    <panes>
+      <pane id="Scope" />
+      <pane id="ProjectPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="WebLooper" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="WebLooper" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="WebLooper" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="WebLooper" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="WebLooper" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="style" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+    </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="options.splitter.main.proportions" value="0.3" />
+    <property name="full.screen.before.presentation.mode" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="options.lastSelected" value="reference.settingsdialog.IDE.editor.colors.Font" />
+    <property name="options.lastSelected" value="liveEdit" />
+    <property name="recentsLimit" value="5" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Projects/WebstormProjects/WebLooper/index.html" />
+    <property name="restartRequiresConfirmation" value="true" />
     <property name="FullScreen" value="false" />
     <property name="DefaultHtmlFileTemplate" value="Html5" />
-    <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
+    <property name="options.splitter.details.proportions" value="0.2" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$" />
     </key>
   </component>
-  <component name="RunManager">
-    <configuration default="true" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application">
-      <option name="VMOptions" />
-      <option name="arguments" />
-      <option name="filePath" />
-      <option name="name" value="Dart" />
-      <option name="saveOutputToFile" value="false" />
-      <option name="showConsoleOnStdErr" value="false" />
-      <option name="showConsoleOnStdOut" value="false" />
+  <component name="RunManager" selected="JavaScript Debug.index.html">
+    <configuration default="false" name="index.html" type="JavascriptDebugType" factoryName="JavaScript Debug" singleton="true" temporary="true" uri="file://$USER_HOME$/Projects/WebstormProjects/WebLooper/index.html">
+      <RunnerSettings RunnerId="JavascriptDebugRunner" />
+      <ConfigurationWrapper RunnerId="JavascriptDebugRunner" />
       <method />
     </configuration>
     <configuration default="true" type="DartUnitRunConfigurationType" factoryName="DartUnit">
@@ -169,6 +276,16 @@
       <option name="filePath" />
       <option name="scope" value="ALL" />
       <option name="testName" />
+      <method />
+    </configuration>
+    <configuration default="true" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application">
+      <option name="VMOptions" />
+      <option name="arguments" />
+      <option name="filePath" />
+      <option name="name" value="Dart" />
+      <option name="saveOutputToFile" value="false" />
+      <option name="showConsoleOnStdErr" value="false" />
+      <option name="showConsoleOnStdOut" value="false" />
       <method />
     </configuration>
     <configuration default="true" type="JavaScriptTestRunnerKarma" factoryName="Karma" singleton="true" config-file="">
@@ -182,7 +299,14 @@
       <browser start="false" url="" with-js-debugger="false" />
       <method />
     </configuration>
-    <list size="0" />
+    <list size="1">
+      <item index="0" class="java.lang.String" itemvalue="JavaScript Debug.index.html" />
+    </list>
+    <recent_temporary>
+      <list size="1">
+        <item index="0" class="java.lang.String" itemvalue="JavaScript Debug.index.html" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="ShelveChangesManager" show_recycled="false" />
   <component name="StructureViewFactory">
@@ -211,6 +335,11 @@
       <created>1380201492373</created>
       <updated>1380201492373</updated>
     </task>
+    <task id="LOCAL-00001" summary="Implemented a first version of a quantization&#10;&#10;Finally fixed the annoying delay">
+      <created>1380391380424</created>
+      <updated>1380391380424</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -234,25 +363,26 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="54" y="24" width="1313" height="771" extended-state="0" />
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32854864" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3296" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20213577" sideWeight="0.6704" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24980237" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32711864" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2090909" sideWeight="0.67288136" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17125838" sideWeight="0.60338986" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39661017" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24924242" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32923076" sideWeight="0.5" order="11" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24980237" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -263,51 +393,32 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
+    <MESSAGE value="Implemented a first version of a quantization&#10;&#10;Finally fixed the annoying delay" />
+    <option name="LAST_COMMIT_MESSAGE" value="Implemented a first version of a quantization&#10;&#10;Finally fixed the annoying delay" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="1" />
+      <option name="time" value="2" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/index.html">
+    <entry file="file://$PROJECT_DIR$/Track.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="81" column="27" selection-start="2961" selection-end="2961" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1674">
+        <state line="93" column="32" selection-start="2169" selection-end="2169" vertical-scroll-proportion="0.0" vertical-offset="1301" max-vertical-offset="2960">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Application.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="17" selection-start="281" selection-end="281" vertical-scroll-proportion="0.0" vertical-offset="270" max-vertical-offset="414">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/UIManager.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="55" column="12" selection-start="1117" selection-end="1117" vertical-scroll-proportion="0.0" vertical-offset="990" max-vertical-offset="1368">
+        <state line="18" column="0" selection-start="299" selection-end="299" vertical-scroll-proportion="0.0" vertical-offset="306" max-vertical-offset="408">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Looper.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="116" column="26" selection-start="2234" selection-end="2234" vertical-scroll-proportion="0.0" vertical-offset="2088" max-vertical-offset="2628">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Track.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="56" column="41" selection-start="1229" selection-end="1229" vertical-scroll-proportion="0.0" vertical-offset="1008" max-vertical-offset="1800">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="81" column="27" selection-start="2961" selection-end="2961" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1395">
+        <state line="140" column="0" selection-start="2944" selection-end="2944" vertical-scroll-proportion="0.0" vertical-offset="2380" max-vertical-offset="3638">
           <folding />
         </state>
       </provider>
@@ -340,42 +451,61 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/style/main.css">
+    <entry file="file://$PROJECT_DIR$/recorder/recorder.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0" />
+        <state line="13" column="43" selection-start="458" selection-end="458" vertical-scroll-proportion="0.0" vertical-offset="765" max-vertical-offset="1395" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/index.html">
+    <entry file="file://$PROJECT_DIR$/WebRTC.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="81" column="27" selection-start="2961" selection-end="2961" vertical-scroll-proportion="0.0" vertical-offset="1215" max-vertical-offset="1395">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="562" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="27" column="46" selection-start="812" selection-end="812" vertical-scroll-proportion="-10.04" vertical-offset="181" max-vertical-offset="944">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/style/main.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="46" column="21" selection-start="1371" selection-end="1371" vertical-scroll-proportion="0.0" vertical-offset="288" max-vertical-offset="1280">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Application.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="17" selection-start="281" selection-end="281" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0">
+        <state line="52" column="6" selection-start="1091" selection-end="1091" vertical-scroll-proportion="0.0" vertical-offset="92" max-vertical-offset="944">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/UIManager.js">
+    <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="55" column="12" selection-start="1117" selection-end="1117" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0">
+        <state line="60" column="28" selection-start="2288" selection-end="2288" vertical-scroll-proportion="-19.2" vertical-offset="480" max-vertical-offset="1520">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Track.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="81" column="68" selection-start="1710" selection-end="1710" vertical-scroll-proportion="0.0" vertical-offset="838" max-vertical-offset="2235">
+        <state line="90" column="22" selection-start="1781" selection-end="1781" vertical-scroll-proportion="0.0" vertical-offset="2956" max-vertical-offset="3520">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Looper.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="61" column="27" selection-start="1200" selection-end="1200" vertical-scroll-proportion="-0.33653846" vertical-offset="1125" max-vertical-offset="2445">
+        <state line="281" column="33" selection-start="7033" selection-end="7033" vertical-scroll-proportion="0.0" vertical-offset="4729" max-vertical-offset="5424">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/UIManager.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="186" column="8" selection-start="5062" selection-end="5062" vertical-scroll-proportion="0.8865248" vertical-offset="2476" max-vertical-offset="3104">
           <folding />
         </state>
       </provider>

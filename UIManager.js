@@ -8,7 +8,13 @@ var UIManager = function(){
 
         trackToggled : 'trackToggled',
 
-        gainPressed : 'gainPressed'
+        gainPressed : 'gainPressed',
+
+        looperMute : 'looperMute',
+
+        looperFilter : 'looperFilter',
+
+        looperEffect : 'looperEffect'
 
     };
 
@@ -16,9 +22,17 @@ var UIManager = function(){
 
         tracks : [49, 50, 51, 52, 53], // record/play
 
-        gains : [81, 87, 51, 52, 53] // change gain
+        gains : [81, 87, 51, 52, 53], // change globalGain
+
+        filters : [122, 120], // enable/disable filters
+
+        looperMute : [109] // muteAll looper's output (all tracks)
     }
 
+    this.keysFiltersMap = {
+        122 : 'lowpass',
+        120 : 'highpass'
+    }
 
     this.registerForEvent = function(eventName, callback, scope){
 
@@ -53,6 +67,19 @@ var UIManager = function(){
 
     // From UI events
 
+    var pressedKeys = [];
+
+    window.addEventListener('keydown', function(e){
+        pressedKeys.push(e.keyCode);
+    });
+
+    window.addEventListener('keyup', function(e){
+        var keyIndex = pressedKeys.indexOf(e.keyCode);
+        if (keyIndex != -1){
+            pressedKeys.splice(keyIndex, 1);
+        }
+    });
+
     window.addEventListener('keypress', function(e){
 
         debug.startTime = performance.now();
@@ -67,17 +94,27 @@ var UIManager = function(){
 
         else
 
-        if (this.keyCodes.gains.indexOf(e.keyCode) != -1){
-            // TODO Wait for scrolling event
+        if (this.keyCodes.looperMute.indexOf(e.keyCode) != -1){
+            window.dispatchEvent(new CustomEvent(this.events.looperMute, {detail : data}));
         }
+
+        else
+
+        if (this.keyCodes.filters.indexOf(e.keyCode) != -1){
+            window.dispatchEvent(new CustomEvent(this.events.looperFilter, {detail : {filter : this.keysFiltersMap[e.keyCode]}}));
+        }
+
 
     }.bind(this));
 
     // To UI events
 
-    /**
-     * All the keys that are currently down
-     */
+    var loopLed = document.querySelector('#loop-led');
+    var beatLed = document.querySelector('#beat-led');
+    var trackLabels = document.querySelectorAll('.track-status span');
+    var trackSliders = document.querySelectorAll('.track-container input');
+    var muteLabel = document.querySelector('#muteLabel');
+    var filterLabels = document.querySelectorAll('.filterLabel');
 
     var ledSrc = {
         green :  'resources/ui/ledgreen.png',
@@ -91,10 +128,13 @@ var UIManager = function(){
         disabled : ''
     };
 
-    var loopLed = document.querySelector('#loop-led');
-    var beatLed = document.querySelector('#beat-led');
-    var trackLabels = document.querySelectorAll('.track-status span');
-    var trackSliders = document.querySelectorAll('.track-container input');
+    var muteLabelStatuses = {
+        muted : 'label-warning'
+    }
+
+    var filterLabelStatuses = {
+        enabled : 'label-success'
+    }
 
     window.addEventListener('loop', function(e){
         loopLed.src = ledSrc.green;
@@ -111,8 +151,17 @@ var UIManager = function(){
     });
 
 
-    window.addEventListener('playing', function(e){
-        var trackNumber = e.detail.trackNumber;
+    window.addEventListener('recordingTrack', function(e){
+        var trackNumber = e.detail.track.getNumber();
+        var statusIndex = trackNumber- 1; // In the dom tracks are 0...n-1
+        var trackLabel = trackLabels[statusIndex];
+
+        trackLabel.classList.remove(trackLabel.classList[1]);
+        trackLabel.classList.toggle(trackStatuses.recording);
+    });
+
+    window.addEventListener('playingTrack', function(e){
+        var trackNumber = e.detail.track.getNumber();
         var statusIndex = trackNumber - 1; // In the dom tracks are 0...n-1
         var trackLabel = trackLabels[statusIndex];
 
@@ -120,12 +169,21 @@ var UIManager = function(){
         trackLabel.classList.toggle(trackStatuses.playing);
     });
 
-    window.addEventListener('recording', function(e){
-        var trackNumber = e.detail.trackNumber;
-        var statusIndex = trackNumber- 1; // In the dom tracks are 0...n-1
-        var trackLabel = trackLabels[statusIndex];
+    window.addEventListener('looperMute', function(e){
+        muteLabel.classList.toggle(muteLabelStatuses.muted);
+    });
 
-        trackLabel.classList.remove(trackLabel.classList[1]);
-        trackLabel.classList.toggle(trackStatuses.recording);
+    window.addEventListener('looperFilter', function(e){
+        for (var i = 0; i < filterLabels.length; i++){
+            if (filterLabels[i].getAttribute('id') != e.detail.filter){
+                filterLabels[i].classList.remove(filterLabelStatuses.enabled);
+            } else {
+                filterLabels[i].classList.toggle(filterLabelStatuses.enabled);
+            }
+        }
+    });
+
+    window.addEventListener('mousescroll', function(e){
+         
     });
 }

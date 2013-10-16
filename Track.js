@@ -6,13 +6,15 @@
  * To change this template use File | Settings | File Templates.
  */
 
-var Track = function(looper){
+var Track = function(looper, trackNumber){
 
     Track.MAX_SOURCE_NODES = 10;
 
     var looper = looper;
 
-    var recorder = new Recorder(looper.getSource());
+    var recorder = new Recorder(looper.getNodes().gain);
+
+    var number = trackNumber;
 
     var sourceNodes = [];
 
@@ -20,7 +22,7 @@ var Track = function(looper){
 
     var scheduledSourceNodes = [];
 
-    var gain = 100;
+    var currentGain = 1;
 
     var pitch = 1;
 
@@ -36,7 +38,20 @@ var Track = function(looper){
 
     var lastPlayTime = 0;
 
+    var events = {
+        playing : new CustomEvent("playingTrack", {detail : {track : this}}),
+        recording : new CustomEvent("recordingTrack", {detail : {track : this}})
+    }
+
+    var nodes = {
+        gain : null
+    }
+
     // Methods
+
+    this.getNumber = function(){
+        return number;
+    }
 
     this.isPlaying = function(){
         return playing;
@@ -58,6 +73,22 @@ var Track = function(looper){
         recorder.clear();
         recorder.record();
         recording = true;
+        window.dispatchEvent(events.recording);
+    }
+
+    this.mute = function(mute){
+        if (mute){
+            currentGain = nodes.gain.gain.value;
+            nodes.gain.gain.value = 0;
+        } else {
+            nodes.gain.gain.value = currentGain;
+        }
+    }
+
+    this.clear = function(){
+        this.stopRecording();
+        this.stopPlaying();
+        buffer = null;
     }
 
     var buildBuffer = function(channelsData){
@@ -78,30 +109,36 @@ var Track = function(looper){
         if (!this.isRecording()) return;
         recorder.stop();
         recording = false;
-        bufferBuilt = false;
+        bufferBuilt = false; // rebuild the buffer
+        lastPlayTime = 0; // reset the last time this track was played
+        pitch = 1; // reset the pitch
         bufferCreatedCallback = (callback)? callback.bind(scope) : function(){
             console.warn("No callback specified for stopRecording. Doing nothing...");
         };
+        console.log(this);
+        window.dispatchEvent(events.recording);
         recorder.getBuffer(buildBuffer.bind(this));
     }
 
     this.startPlaying = function(when){
 
         var context = this.getContext();
+        var gain = this.getgain();
+        var destination = this.getDestination();
 
         // API limitation, this node has to be created every time
         currentSourceNode = sourceNodes.splice(0, 1)[0];
         currentSourceNode.buffer = buffer;
-        currentSourceNode.connect(this.getDestination());
+        currentSourceNode.connect(nodes.gain); // TODO connect to local gain
+        nodes.gain.connect(destination);
         scheduledSourceNodes.push(currentSourceNode); // TODO Remember to stop all the scheduled nodes when registering a new sound
         currentSourceNode.playbackRate.value = pitch; // Set the pitch
-        // console.log("Delay to play "+(performance.now() - debug.startTime));
-        //console.log("Now is "+context.currentTime+", Playing at "+when);
         currentSourceNode.start((when)? when : 0);
 
         // TODO Remember to disconnect the node once it's done playing, otherwise memory leak! There's a reference from the context
 
         playing = true;
+        window.dispatchEvent(events.playing);
 
         lastPlayTime = when;
 
@@ -114,6 +151,10 @@ var Track = function(looper){
                 sourceNodes.push(context.createBufferSource());
             }
         }
+    }
+
+    this.getgain = function(){
+        return looper.getGainNode();
     }
 
     this.getLastPlayTime = function(){
@@ -134,10 +175,11 @@ var Track = function(looper){
         scheduledSourceNodes = [];
 
         playing = false;
+        window.dispatchEvent(events.playing);
     }
 
     this.setGain = function(gain){
-
+        nodes.gain.gain.value = gain;
     }
 
     this.insertNode = function(node){
@@ -156,6 +198,10 @@ var Track = function(looper){
         pitch = newPitch;
     }
 
+    this.getPitch = function(){
+        return pitch;
+    }
+
     // Constructor
     for (var i = 0; i < Track.MAX_SOURCE_NODES; i++){
 
@@ -163,5 +209,7 @@ var Track = function(looper){
 
         sourceNodes.push(context.createBufferSource());
     }
+
+    nodes.gain = context.createGainNode();
 
 }

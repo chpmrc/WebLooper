@@ -7,66 +7,67 @@
 
 <body>
 <h1>Web Looper</h1>
-<h5>A loop recorder made entirely with the WebAudio API</h5>
+<h5>A loop recorder made entirely with the <a href="http://www.w3.org/TR/webaudio/">WebAudio API</a></h5>
+
+<div id="artistVideo"></div>
+
 <div class="container">
     <div class="looper-info">
         <div class="label label-warning">Tempo</div>
         <img class="led" id="loop-led" src="resources/ui/ledblack.png" alt="" />
         <img class="led" id="beat-led" src="resources/ui/ledblack.png" alt="" />
+        <div id="muteLabel" class="label">Mute [M]</div>
     </div>
     <div class="tracks-container">
 
         <div class="track-container" id="track1">
             <div class="track-status">
-                <span class="label">Track 1</span>
+                <span class="label">Track 1 [1]</span>
             </div>
             <input type="range" name="gain" value="100" />
         </div>
         <div class="track-container" id="track2">
             <div class="track-status">
-                <span class="label">Track 2</span>
+                <span class="label">Track 2 [2]</span>
             </div>
             <input type="range" name="gain" value="100" />
         </div>
         <div class="track-container" id="track3">
             <div class="track-status">
-                <span class="label">Track 3</span>
+                <span class="label">Track 3 [3]</span>
             </div>
             <input type="range" name="gain" value="100" />
         </div>
         <div class="track-container" id="track4">
             <div class="track-status">
-                <span class="label">Track 4</span>
+                <span class="label">Track 4 [4]</span>
             </div>
             <input type="range" name="gain" value="100" />
         </div>
         <div class="track-container" id="track5">
             <div class="track-status">
-                <span class="label">Track 5</span>
+                <span class="label">Track 5 [5]</span>
             </div>
             <input type="range" name="gain" value="100" />
         </div>
     </div>
+    <div class="filters-info">
+        <div class="label label-info">Filters</div>
+        <div id="lowpass" class="label filterLabel">Low Pass [Z]</div>
+        <div id="highpass" class="label filterLabel">High Pass [X]</div>
+    </div>
+    <div class="effects-info">
+        <div class="label label-info">Effects</div>
+        <div id="convolution" class="label effectLabel">Convolution [C]</div>
+    </div>
 </div>
 
-<footer>
-    <div>
-        <b>Note:</b> this is a work in progress! Many expected features could not be working or be broken. Use at your own risk (yeah, it may blow up!)
-    </div>
-    <br />
-    <div>
-        <p><b>Working features:</b></p>
-        <p>
-        <ul>
-            <li><b>Volume</b>: press the toggle corresponding to the track you want to change the volume of and scroll down/up. E.g. Q -> track 1, W -> track 2, etc.</li>
-            <li><b>Tempo detection</b>: start recording the first track, the tempo will be automatically set depending after you stop the recording (currently 8 beats per measure/loop are supported)</li>
-        </ul>
-        </p>
-    </div>
-    <div>
-        <em>Author: Marco Chiappetta</em>
-    </div>
-</footer>
+<div id="rtc">
+    <h4 class="roomid">Room's ID: </h4>
+    <h4 class="connections">Connections: </h4>
+</div>
+
+
 
 <!-- Scripts -->
 <!-- Bootstrap -->
@@ -79,6 +80,7 @@
     navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia;
 </script>
 <script src="recorder/recorder.js"></script>
+<script src="http://cdn.peerjs.com/0.3/peer.min.js"></script>
 <script src="UIManager.js"></script>
 <script type="text/javascript" src="Track.js"></script>
 <script type="text/javascript" src="Looper.js"></script>

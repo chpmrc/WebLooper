@@ -6,17 +6,27 @@
  * To change looper template use File | Settings | File Templates.
  */
 
-var Looper = function(measureSize){
+var Looper = function(measureSizeArg){
 
     Looper.MAX_SCHEDULED_SOUNDS = 10;
 
     var looper = this; // For callbacks
 
+    var recorder = null;
+
     var power = false;
 
     var looping = false;
 
-    var measureSize = measureSize;
+    var recording = false;
+
+    var mute = false;
+
+    var currentFilter = null;
+
+    var measureSize = measureSizeArg;
+
+    var quantizationValue = 0.05;
 
     var tracks = [];
 
@@ -28,12 +38,17 @@ var Looper = function(measureSize){
 
     var nodes = {
         source : null,
-        destination : null
+        destination : null,
+        gain : null,
+        output : null,
+        filters : null
     }
 
     var events = {
-        loop : new CustomEvent("loop"),
-        beat : new CustomEvent("beat")
+        loop : new CustomEvent("loop", {detail: looper}),
+        beat : new CustomEvent("beat"),
+        effectEnabled : new CustomEvent("effectEnabled"),
+        muteAll : new CustomEvent('looperMute', {detail: looper})
     }
 
     var loopInterval = null;
@@ -44,11 +59,13 @@ var Looper = function(measureSize){
 
     var bpm = 0;
 
+    var currentGain = 1;
+
     var getBpmFromDuration = function(duration){
         return (60.0 * measureSize) / duration;
     }
 
-    looper.powerOn = function(){
+    looper.powerOn = function(callback, scope){
 
         if (power) return;
 
@@ -57,14 +74,30 @@ var Looper = function(measureSize){
 
         // Get the main input
         navigator.getUserMedia({audio : true}, function(stream){
+
+            // Create the nodes
             nodes.source = context.createMediaStreamSource(stream);
             nodes.destination = context.destination;
+            nodes.gain = context.createGainNode();
+            nodes.output = context.createGainNode();
+            nodes.filter = context.createBiquadFilter();
 
-            nodes.source.connect(nodes.destination);
+            // Connect the nodes
+            nodes.source.connect(nodes.gain);
+            nodes.gain.connect(nodes.output);
+            nodes.output.connect(nodes.destination);
 
             // Build the tracks
             for (var i = 0; i < numOfTracks; i++){
-                tracks[i] = new Track(looper);
+                tracks[i] = new Track(looper, i+1);
+            }
+
+            // Create the recorder
+            recorder = new Recorder(nodes.gain);
+
+            // Call the callback
+            if (callback){
+                callback.bind(scope)(looper);
             }
         });
 
@@ -72,7 +105,6 @@ var Looper = function(measureSize){
     }
 
     looper.powerOff = function(){
-
         if (!power) return;
 
         for (var i = 0; i < numOfTracks; i++){
@@ -81,17 +113,11 @@ var Looper = function(measureSize){
         }
 
         tracks = [];
-
         nodes.source.disconnect();
-
         nodes = {};
-
         duration = 0;
-
         bpm = 0;
-
         power = false;
-
     }
 
     looper.getContext = function(){
@@ -102,6 +128,10 @@ var Looper = function(measureSize){
         return tracks;
     }
 
+    looper.getNodes = function(){
+        return nodes;
+    }
+
     looper.getSource = function(){
         return nodes.source;
     }
@@ -110,13 +140,26 @@ var Looper = function(measureSize){
         return nodes.destination;
     }
 
-
-    looper.setGain = function(trackNumber, gain){
-
+    looper.getGainNode = function(){
+        return nodes.gain;
     }
 
-    looper.insertNode = function(tag, node, trackNumber){
+    looper.setGain = function(gain){
+        nodes.gain.gain.value = gain;
+    }
 
+    looper.getGain = function(){
+        return nodes.gain.gain.value;
+    }
+
+    looper.insertNode = function(tag, node){
+        nodes[tag] = node;
+    }
+
+    looper.removeNode = function(tag){
+        if (!nodes[tag]) console.warn("Couldn't find any node with the tag: "+tag);
+        nodes[tag].disconnect();
+        delete nodes[tag];
     }
 
     looper.getTrackNumber = function(track){
@@ -125,34 +168,38 @@ var Looper = function(measureSize){
     }
 
     var loop = function(){
+        // Schedule tracks
         for (var i = 0; i < numOfTracks; i++){
             if (tracks[i].isPlaying())
                 scheduleTrack(tracks[i]);
         }
 
+        // Record the next loop
+
+
         // Fire the loop event
         window.dispatchEvent(events.loop);
-        console.warn("LOOP");
+    }
+
+    var beat = function(){
+        window.dispatchEvent(events.beat);
     }
 
     var startLoop = function(){
         window.dispatchEvent(events.loop);
-        window.dispatchEvent(events.beat);
 
         loopInterval = setInterval(function(){
             loop();
         }, loopDuration * 1000);
 
         beatInterval = setInterval(function(){
-            window.dispatchEvent(events.beat);
+            beat();
         }, (loopDuration * 1000) / measureSize);
 
         looping = true;
     }
 
-
     var scheduleTrack = function(track){
-        console.log(track);
         // TODO Get the length of the buffer, compute the delay and start playing the track
         var now = looper.getContext().currentTime;
         var trackDuration = track.getDuration();
@@ -170,15 +217,13 @@ var Looper = function(measureSize){
 
         delta = loopDuration - trackDuration;
         deltaP = delta / loopDuration;
-        console.log("Difference is "+(deltaP * 100)+"%");
 
         // Loop quantization
-        if (Math.abs(deltaP) < 0.02){
+        if (false && Math.abs(deltaP) <= quantizationValue && track.getPitch() == 1){
+            console.log("Changed pitch to "+(1 - deltaP)+" [Track "+looper.getTrackNumber(track)+"], difference was "+(deltaP * 100)+"%");
             track.setPitch(1 - deltaP);
             delta = 0;
         }
-
-        console.log("Last play "+track.getLastPlayTime());
 
         // Actual scheduling
         for (var i = 1; i < Looper.MAX_SCHEDULED_SOUNDS; i++){
@@ -188,6 +233,67 @@ var Looper = function(measureSize){
 
         if (!looping){
             startLoop();
+        }
+    }
+
+    this.startRecording = function(){
+        recorder.stop();
+        recorder.clear();
+        recorder.record();
+        recording = true;
+    }
+
+    this.stopRecording = function(callback, type, scope){
+        recorder.stop();
+        recording = false;
+        if (type === "buffer"){
+            recorder.getBuffer(callback.bind(scope));
+        } else {
+            recorder.exportWAV(callback.bind(scope));
+        }
+    }
+
+    this.isRecording = function(){
+        return recording;
+    }
+
+    this.muteAll = function(mute){
+        if (mute){
+            currentGain = this.getGain();
+            this.setGain(0);
+            for (var i = 0; i < tracks.length; i++){
+                tracks[i].mute(true);
+            }
+        } else {
+            this.setGain(currentGain);
+            for (var i = 0; i < tracks.length; i++){
+                tracks[i].mute(false);
+            }
+        }
+    }
+
+    this.setFilter = function(filterName, config){
+        // TODO config is used to tweak the filter (e.g. frequency, quality, etc.)
+        if (filterName != 'none' && filterName != null && currentFilter != filterName){
+            nodes.filter.type = filterName;
+            currentFilter = filterName;
+            connectNodes([nodes.source, nodes.filter, nodes.gain, nodes.output]);
+        } else {
+            currentFilter = null;
+            connectNodes([nodes.source, nodes.gain, nodes.output]);
+        }
+
+    }
+
+    var connectNodes = function(nodes){
+        var curNode = nodes[0];
+        for (var i = 1; i < nodes.length; i++){
+            if (i != nodes.length - 1){
+                curNode.disconnect();
+            }
+            console.log("Connecting "+curNode+" to "+nodes[i]);
+            curNode.connect(nodes[i]);
+            curNode = nodes[i];
         }
     }
 
@@ -209,6 +315,20 @@ var Looper = function(measureSize){
             track.startRecording();
         }
 
+    });
+
+    window.addEventListener('looperMute', function(e){
+        if (mute){
+            mute = false;
+            looper.muteAll(false);
+        } else {
+            mute = true;
+            looper.muteAll(true);
+        }
+    });
+
+    window.addEventListener('looperFilter', function(e){
+        looper.setFilter(e.detail.filter);
     });
 
 }

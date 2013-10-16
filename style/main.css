@@ -1,5 +1,11 @@
-h1, h5 {
-    text-align: center;
+body {
+    margin: 0 10% 0 10%;
+    background-color: black;
+}
+
+h1, h2, h3, h4, h5 {
+    text-align: left;
+    color: white;
 }
 
 .label {
@@ -7,11 +13,15 @@ h1, h5 {
     margin: 1em 1em 1em 1em;
 }
 
+div#artistVideo video, div#audienceVideos video{
+    width : 20%;
+    height : auto;
+}
+
 div.container {
     margin-top: 2%;
-    border-radius: 10px;
-    width: 70%;
-    height: 40%;
+    width: 100%;
+    height: 50%;
     display:-webkit-box; /* TODO Make compatible */
     -webkit-box-pack:center;
     -webkit-box-align:center;
@@ -33,8 +43,8 @@ div.container {
 }
 
 div.track-container {
-    margin-left: 3em;
-    margin-right: 3em;
+    margin-left: 1.5em;
+    margin-right: 1.5em;
     width: auto;
     float: left;
     text-align: center;
