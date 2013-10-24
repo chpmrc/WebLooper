@@ -6,19 +6,25 @@
 </head>
 
 <body>
-<h1>Web Looper</h1>
-<h5>A loop recorder made entirely with the <a href="http://www.w3.org/TR/webaudio/">WebAudio API</a></h5>
 
-<div id="artistVideo"></div>
+    <h1>Web Looper</h1>
+    <h5>A loop recorder made entirely with the <a href="http://www.w3.org/TR/webaudio/">WebAudio API</a></h5>
 
-<div class="container">
-    <div class="looper-info">
-        <div class="label label-warning">Tempo</div>
-        <img class="led" id="loop-led" src="resources/ui/ledblack.png" alt="" />
-        <img class="led" id="beat-led" src="resources/ui/ledblack.png" alt="" />
-        <div id="muteLabel" class="label">Mute [M]</div>
-    </div>
-    <div class="tracks-container">
+    <div id="artistVideo"></div>
+
+    <div class="container">
+        <div class="looper-info">
+            <div class="label">Power</div>
+            <div id="powerbtn" class="btn">OFF</div>
+            <div class="label label-warning">Tempo</div>
+            <div class="leds-container">
+                <img class="led" id="loop-led" src="resources/ui/ledblack.png" alt="" />
+                <img class="led" id="beat-led" src="resources/ui/ledblack.png" alt="" />
+            </div>
+            <div id="muteLabel" class="label">Mute [M]</div>
+            <button id="recordBtn" class="btn">Record</button>
+      </div>
+      <div class="tracks-container">
 
         <div class="track-container" id="track1">
             <div class="track-status">
@@ -64,8 +70,56 @@
 
 <div id="rtc">
     <h4 class="roomid">Room's ID: </h4>
-    <h4 class="connections">Connections: </h4>
+    <h4 class="connections">People in the audience: <span class="number">0</span></h4>
+    <div class="audience"></div>
 </div>
+<hr/>
+<h3>F.A.Q.</h3>
+<input id="showfaq" type="button" value="Show"/>
+<div id="faq" class="hidden">
+    <ul>
+        <li>How do I use this looper?</li>
+        <p>Use the keyboard! Using a keyboard is the quickest and most efficient way of using any kind of looper, regardless of its nature (hardware or software).</p>
+        <li>How do I record/play a track?</li>
+        <p>Just press the number corresponding to the track you want to record/play. The first time you press the button you will record the track, the second time you will play it.</p>
+        <li>How do I increase/decrease the volume?</li>
+        <p>Hold one of the volume keys under each record/play button (e.g. Q for track 1, W for track 2 and so on) while you scroll up or down. This will increase/decrease the volume of the related track.</p>
+        <li>I made a mistake! How can I reset a track or the entire looper?</li>
+        <p>If you want to reset a track you can just hold 0 while you press the number of the track you want to clear. If you want to reset the whole looper the best thing is to refresh the page (for now!)</p>
+    </ul>
+
+</div>
+
+<script>
+showfaq.onclick = function(e){
+    var btn = e.target;
+    faq.classList.toggle('hidden');
+}
+
+var labels = document.querySelectorAll('.label');
+var notification = document.createElement('p');
+var container = document.querySelector('.container');
+notification.setAttribute('style', 'color:red');
+notification.innerHTML = "Mouse interaction not available (yet). Please read the F.A.Q..";
+
+for (var label in labels){
+    if (labels[label]){
+        labels[label].onclick = function(){
+            document.body.insertBefore(notification, container.nextSibling);
+            showfaq.click();
+            setTimeout(function(){
+                document.body.removeChild(notification);
+            }, 1000);
+        }
+    }
+}
+</script>
+
+<script>
+if (!navigator.appVersion || navigator.appVersion.indexOf("Chrome") == -1){
+    document.body.innerHTML = "<h4>Sorry, this application is compatible with Chrome (>= 23) only! </h4><a href=\"https://www.google.com/intl/it/chrome/browser/\">Download Chrome</a>";
+}
+</script>
 
 
 
@@ -78,12 +132,12 @@
     // Normalize
     window.AudioContext = window.AudioContext || window.webkitAudioContext;
     navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia;
-</script>
-<script src="recorder/recorder.js"></script>
-<script src="http://cdn.peerjs.com/0.3/peer.min.js"></script>
-<script src="UIManager.js"></script>
-<script type="text/javascript" src="Track.js"></script>
-<script type="text/javascript" src="Looper.js"></script>
-<script type="text/javascript" src="Application.js"></script>
+    </script>
+    <script src="recorder/recorder.js"></script>
+    <script src="http://cdn.peerjs.com/0.3/peer.min.js"></script>
+    <script src="UIManager.js"></script>
+    <script type="text/javascript" src="Track.js"></script>
+    <script type="text/javascript" src="Looper.js"></script>
+    <script type="text/javascript" src="Application.js"></script>
 </body>
 </html>

@@ -40,7 +40,9 @@ var Track = function(looper, trackNumber){
 
     var events = {
         playing : new CustomEvent("playingTrack", {detail : {track : this}}),
-        recording : new CustomEvent("recordingTrack", {detail : {track : this}})
+        recording : new CustomEvent("recordingTrack", {detail : {track : this}}),
+        gainChanged : new CustomEvent("gainChanged",  {detail : {track : this}}),
+        trackCleared : new CustomEvent('trackCleared', {detail : {track : this}})
     }
 
     var nodes = {
@@ -89,6 +91,7 @@ var Track = function(looper, trackNumber){
         this.stopRecording();
         this.stopPlaying();
         buffer = null;
+        window.dispatchEvent(events.trackCleared);
     }
 
     var buildBuffer = function(channelsData){
@@ -108,6 +111,7 @@ var Track = function(looper, trackNumber){
     this.stopRecording = function(callback, scope){
         if (!this.isRecording()) return;
         recorder.stop();
+        // TODO Remove debug structure
         recording = false;
         bufferBuilt = false; // rebuild the buffer
         lastPlayTime = 0; // reset the last time this track was played
@@ -115,7 +119,6 @@ var Track = function(looper, trackNumber){
         bufferCreatedCallback = (callback)? callback.bind(scope) : function(){
             console.warn("No callback specified for stopRecording. Doing nothing...");
         };
-        console.log(this);
         window.dispatchEvent(events.recording);
         recorder.getBuffer(buildBuffer.bind(this));
     }
@@ -123,17 +126,19 @@ var Track = function(looper, trackNumber){
     this.startPlaying = function(when){
 
         var context = this.getContext();
-        var gain = this.getgain();
+        var gain = nodes.gain;
         var destination = this.getDestination();
 
         // API limitation, this node has to be created every time
         currentSourceNode = sourceNodes.splice(0, 1)[0];
         currentSourceNode.buffer = buffer;
         currentSourceNode.connect(nodes.gain); // TODO connect to local gain
+        nodes.gain.connect(looper.getNodes().recordingSource);
         nodes.gain.connect(destination);
         scheduledSourceNodes.push(currentSourceNode); // TODO Remember to stop all the scheduled nodes when registering a new sound
         currentSourceNode.playbackRate.value = pitch; // Set the pitch
         currentSourceNode.start((when)? when : 0);
+
 
         // TODO Remember to disconnect the node once it's done playing, otherwise memory leak! There's a reference from the context
 
@@ -151,10 +156,6 @@ var Track = function(looper, trackNumber){
                 sourceNodes.push(context.createBufferSource());
             }
         }
-    }
-
-    this.getgain = function(){
-        return looper.getGainNode();
     }
 
     this.getLastPlayTime = function(){
@@ -180,6 +181,11 @@ var Track = function(looper, trackNumber){
 
     this.setGain = function(gain){
         nodes.gain.gain.value = gain;
+        window.dispatchEvent(events.gainChanged);
+    }
+
+    this.getGain = function(){
+        return nodes.gain.gain.value;
     }
 
     this.insertNode = function(node){
@@ -213,3 +219,7 @@ var Track = function(looper, trackNumber){
     nodes.gain = context.createGainNode();
 
 }
+
+Track.GAIN_UNIT = 0.1;
+Track.GAIN_MAX = 1;
+Track.GAIN_MIN = 0;

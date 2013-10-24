@@ -9,45 +9,41 @@
 
 var debug = {};
 
-const MEASURE_SIZE = 8;
+var MEASURE_SIZE = 8;
 
-var peer = new Peer("weblooperroom", {key: 'bwipa5argudf5hfr'});
+var peer = new Peer("weblooperroom0001", {key: 'bwipa5argudf5hfr'});
 
 var conn = null;
 
 var canTalk = false;
 
-peer.on('open', function(id){
-    document.querySelector('.roomid').innerHTML += id;
-});
-
-peer.on('connection', function(connection){
-    document.querySelector('.connections').innerHTML += " Client connected!";
-
-    conn = connection;
-    conn.on('open', function(){
-        canTalk = true;
-    });
-
-});
+var calls = [];
 
 var uiManager = new UIManager();
 
 var looper = new Looper(MEASURE_SIZE);
 
-looper.powerOn();
+peer.on('open', function(id){
+    document.querySelector('.roomid').innerHTML += id;
+});
 
-/** WebRTC TEST */
-/**
-window.addEventListener('loop', function(e){
-    if (!looper.isRecording()){
-        console.log("Recording looper...");
-        looper.startRecording();
-    } else {
-        console.log("...And stopping looper");
-        looper.stopRecording(function(data){
-            console.log("Sending data...");
-            conn.send(data);
-        });
-    }
-}); */
+var addAudience = function(n){
+    var holder = document.querySelector('.connections .number');
+    var value = holder.innerHTML;
+    value = parseInt(value) + n;
+    holder.innerHTML = value;
+
+}
+
+peer.on('call', function(call){
+    calls.push(call);
+    addAudience(1);
+
+    call.on('close', function(){
+        calls.splice(calls.indexOf(call), 1);
+        addAudience(-1);
+    });
+
+    call.answer(looper.getStreamer().stream);
+
+});

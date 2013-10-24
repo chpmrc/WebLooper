@@ -2,7 +2,6 @@
 <html>
     <body>
         <input type="text" id="connid">
-        <input type="button" value="Connect" id="connect">
         <audio id="playback"></audio>
 
     </body>
@@ -11,44 +10,17 @@
     <script>
 
         var peer = new Peer({key: 'bwipa5argudf5hfr'});
-        var conn = null;
-        var myData = [];
+        var id = connid.value;
 
-        var playbackEndCb = function(){
-            if (myData.length == 0) return;
-            console.log("Playing new chunk!");
-            var chunk = myData.splice(0, 1)[0];
-            console.log(chunk);
-            playback.setAttribute('src', URL.createObjectURL(chunk));
+        navigator.webkitGetUserMedia({ audio: true, video: true}, function(mediaStream){
+            peer.call("weblooperroom0001", mediaStream);
+
+            playback.src = URL.createObjectURL(mediaStream);  
+
             playback.play();
-        }
+        });
 
-        connect.onclick = function(){
-            var id = connid.value;
-            conn = peer.connect("weblooperroom", {
-                reliable: true
-            });
-
-            conn.on('open', function(){
-                console.log("Connection established");
-
-                conn.on('data', function(data){
-                    console.log("Receiving data...");
-                    myData.push(new Blob([new Uint8Array(data)], {type : "audio/wav"}));
-                    if (playback.paused){
-                        console.log("Starting to play...");
-                        playbackEndCb();
-                        playback.ended = playbackEndCb;
-                    }
-                });
-
-            });
-
-            conn.on('error', function(err){
-                console.log(error);
-            });
-
-        }
+        
     </script>
 
 </html>

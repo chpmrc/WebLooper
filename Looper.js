@@ -30,6 +30,8 @@ var Looper = function(measureSizeArg){
 
     var tracks = [];
 
+    var firstTrack = null;
+
     var lastPlayTimes = [];
 
     var numOfTracks = 5;
@@ -40,15 +42,18 @@ var Looper = function(measureSizeArg){
         source : null,
         destination : null,
         gain : null,
-        output : null,
-        filters : null
+        streamer : null,
+        filters : null,
+        recordingSource : null
     }
 
     var events = {
         loop : new CustomEvent("loop", {detail: looper}),
         beat : new CustomEvent("beat"),
         effectEnabled : new CustomEvent("effectEnabled"),
-        muteAll : new CustomEvent('looperMute', {detail: looper})
+        muteAll : new CustomEvent('looperMute', {detail: looper}),
+        powerOff : new CustomEvent('looperPowerOff', {detail: looper}),
+        powerOn : new CustomEvent('looperPowerOn', {detail: this})
     }
 
     var loopInterval = null;
@@ -65,63 +70,91 @@ var Looper = function(measureSizeArg){
         return (60.0 * measureSize) / duration;
     }
 
+    // CONSTRUCTOR
+
+    // Web Audio setup
+    context = new AudioContext();
+
+    nodes.destination = context.destination;
+    nodes.gain = context.createGainNode();
+    nodes.filter = context.createBiquadFilter();
+    nodes.recordingSource = context.createGainNode();
+    nodes.streamer = context.createMediaStreamDestination();
+
+    nodes.gain.connect(nodes.destination);
+    nodes.gain.connect(nodes.streamer);
+    nodes.gain.connect(nodes.recordingSource);
+
+    // Create the recorder
+    recorder = new Recorder(nodes.recordingSource);
+
+    // Enable the streamer
+    nodes.recordingSource.connect(nodes.streamer);
+
+    // Methods
+
     looper.powerOn = function(callback, scope){
 
         if (power) return;
-
-        // Web Audio setup
-        context = new AudioContext();
 
         // Get the main input
         navigator.getUserMedia({audio : true}, function(stream){
 
             // Create the nodes
             nodes.source = context.createMediaStreamSource(stream);
-            nodes.destination = context.destination;
-            nodes.gain = context.createGainNode();
-            nodes.output = context.createGainNode();
-            nodes.filter = context.createBiquadFilter();
 
             // Connect the nodes
             nodes.source.connect(nodes.gain);
-            nodes.gain.connect(nodes.output);
-            nodes.output.connect(nodes.destination);
 
             // Build the tracks
             for (var i = 0; i < numOfTracks; i++){
                 tracks[i] = new Track(looper, i+1);
             }
 
-            // Create the recorder
-            recorder = new Recorder(nodes.gain);
 
             // Call the callback
             if (callback){
                 callback.bind(scope)(looper);
             }
-        });
+            
+            try {
+                window.dispatchEvent(new CustomEvent('looperPowerOn', {detail : this}));
+            } catch(e){
+                console.warn(e);
+            }
 
-        power = true;
+            power = true;
+        });
     }
 
     looper.powerOff = function(){
-        if (!power) return;
+        //if (!power) return;
+
+        stopLoop();
 
         for (var i = 0; i < numOfTracks; i++){
-            tracks[i].stopRecording();
-            tracks[i].stopPlaying();
+            tracks[i].clear();
         }
 
-        tracks = [];
         nodes.source.disconnect();
-        nodes = {};
+    
         duration = 0;
         bpm = 0;
         power = false;
+
+        try {
+            window.dispatchEvent(new CustomEvent('looperPowerOff', {detail : this}));
+        } catch(e){
+            console.warn(e);
+        }
     }
 
     looper.getContext = function(){
         return context;
+    }
+
+    looper.getStreamer = function(){
+        return nodes.streamer;
     }
 
     looper.getTracks = function(){
@@ -199,6 +232,12 @@ var Looper = function(measureSizeArg){
         looping = true;
     }
 
+    var stopLoop = function(){
+        clearInterval(loopInterval);
+        clearInterval(beatInterval);
+        looping = false;
+    }
+
     var scheduleTrack = function(track){
         // TODO Get the length of the buffer, compute the delay and start playing the track
         var now = looper.getContext().currentTime;
@@ -213,6 +252,7 @@ var Looper = function(measureSizeArg){
         if (!looping){
             loopDuration = trackDuration;
             bpm = (60.0 * measureSize) / loopDuration;
+            firstTrack = tracks[trackNumber - 1];
         }
 
         delta = loopDuration - trackDuration;
@@ -277,10 +317,10 @@ var Looper = function(measureSizeArg){
         if (filterName != 'none' && filterName != null && currentFilter != filterName){
             nodes.filter.type = filterName;
             currentFilter = filterName;
-            connectNodes([nodes.source, nodes.filter, nodes.gain, nodes.output]);
+            connectNodes([nodes.source, nodes.filter, nodes.gain, nodes.streamer]);
         } else {
             currentFilter = null;
-            connectNodes([nodes.source, nodes.gain, nodes.output]);
+            connectNodes([nodes.source, nodes.gain, nodes.streamer]);
         }
 
     }
@@ -315,7 +355,7 @@ var Looper = function(measureSizeArg){
             track.startRecording();
         }
 
-    });
+    }.bind(this));
 
     window.addEventListener('looperMute', function(e){
         if (mute){
@@ -325,10 +365,60 @@ var Looper = function(measureSizeArg){
             mute = true;
             looper.muteAll(true);
         }
-    });
+    }.bind(this));
 
     window.addEventListener('looperFilter', function(e){
         looper.setFilter(e.detail.filter);
-    });
+    }.bind(this));
+
+    window.addEventListener('changeGain', function(e){
+        var toChange = e.detail.tracks;
+        var amount = (e.detail.direction < 0)? -Track.GAIN_UNIT : Track.GAIN_UNIT;
+        var currentTrack;
+        var gainValue = 0;
+
+        for (var i = 0; i < toChange.length; i++){
+            currentTrack = tracks[toChange[i]-1];
+
+            if (currentTrack.getGain() + amount > Track.GAIN_MAX){
+                gainValue = Track.GAIN_MAX;
+            } else
+            if (currentTrack.getGain() + amount < Track.GAIN_MIN){
+                gainValue = Track.GAIN_MIN;
+            } else {
+                gainValue = currentTrack.getGain() + amount;
+            }
+
+            currentTrack.setGain(gainValue);
+        }
+    }.bind(this));
+
+    window.addEventListener('clearTrack', function(e){
+        var track = tracks[e.detail.trackNumber - 1];
+        track.clear();
+    }.bind(this));
+
+    window.addEventListener('recordLooper', function(e){
+        var toRecord = e.detail.record;
+        if (toRecord){
+            // Clear and start recording
+            recorder.stop();
+            recorder.clear();
+            recorder.record();
+        } else {
+            recorder.exportWAV(function(blob){
+                Recorder.forceDownload(blob);
+            });
+        }
+    }.bind(this));
+
+    window.addEventListener('powerLooper', function(e){
+        var on = e.detail.on;
+        if (on){
+            this.powerOn();
+        } else {
+            this.powerOff();
+        }
+    }.bind(this));
 
 }
