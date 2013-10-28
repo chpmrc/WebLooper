@@ -11,7 +11,7 @@ var debug = {};
 
 var MEASURE_SIZE = 8;
 
-var peer = new Peer("weblooperroom0001", {key: 'bwipa5argudf5hfr'});
+var peer = new Peer({key: 'bwipa5argudf5hfr', debug: 4});
 
 var conn = null;
 
@@ -44,6 +44,9 @@ peer.on('call', function(call){
         addAudience(-1);
     });
 
+    console.log("Answering the call...");
+
+    console.log(looper.getStreamer().stream);
     call.answer(looper.getStreamer().stream);
 
 });

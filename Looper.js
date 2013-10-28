@@ -43,7 +43,7 @@ var Looper = function(measureSizeArg){
         destination : null,
         gain : null,
         streamer : null,
-        filters : null,
+        filter : null,
         recordingSource : null
     }
 
@@ -84,12 +84,10 @@ var Looper = function(measureSizeArg){
     nodes.gain.connect(nodes.destination);
     nodes.gain.connect(nodes.streamer);
     nodes.gain.connect(nodes.recordingSource);
-
-    // Create the recorder
-    recorder = new Recorder(nodes.recordingSource);
-
     // Enable the streamer
     nodes.recordingSource.connect(nodes.streamer);
+    // Create the recorder
+    recorder = new Recorder(nodes.recordingSource);
 
     // Methods
 

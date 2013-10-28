@@ -1,26 +1,46 @@
-<!DOCTYPE html>
 <html>
-    <body>
-        <input type="text" id="connid">
-        <audio id="playback"></audio>
+<head>
+    <title>Web Looper</title>
+    <link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link type="text/css" rel="stylesheet" href="style/main.css"/>
+</head>
 
-    </body>
+<body>
 
-    <script src="http://cdn.peerjs.com/0.3/peer.min.js"></script>
-    <script>
+    <h1>Web Looper (client)</h1>
+    <h5>Client of the first loop recorder made entirely with the <a href="http://www.w3.org/TR/webaudio/">WebAudio API</a></h5>
+    <h5>Insert the room's id, click "Connect" and enjoy!</h5>
 
-        var peer = new Peer({key: 'bwipa5argudf5hfr'});
-        var id = connid.value;
+    <h5>Room: </h5><input type="text" id="connid"/>
+    <div>
+        <input type="button" value="Connect"/>
+    </div>
+    <div>
+        <video id="playback" controls="controls" autoplay="autoplay" height="50px" width="300px"/>
+    </div>
+    
 
-        navigator.webkitGetUserMedia({ audio: true, video: true}, function(mediaStream){
-            peer.call("weblooperroom0001", mediaStream);
+<script>
 
-            playback.src = URL.createObjectURL(mediaStream);  
+        var peer = new Peer({key: 'bwipa5argudf5hfr', debug: 4});
+        var context = new webkitAudioContext();
+        var receiver;
+        var call;
 
-            playback.play();
+        connectBtn.addEventListener('click', function(){
+            navigator.webkitGetUserMedia({ audio: true, video: true}, function(mediaStream){
+                call = peer.call(connid.value, mediaStream);
+
+                call.on('stream', function(remoteStream){
+                    receiver = context.createMediaStreamSource(remoteStream);
+                    receiver.connect(context.destination);
+                    playback.src = URL.createObjectURL(remoteStream);
+
+                });
+                
+            });
         });
-
         
     </script>
-
+</body>
 </html>
