@@ -170,7 +170,11 @@ var Track = function(looper, trackNumber){
         }
 
         for (var i = 0; i < scheduledSourceNodes.length; i++){
-            scheduledSourceNodes[i].stop(0);
+            try {
+				scheduledSourceNodes[i].stop(0);
+			} catch (e){
+				console.log("Called stop on source node " + i + " more than once. No big deal.");
+			}
         }
 
         scheduledSourceNodes = [];
