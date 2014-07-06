@@ -122,7 +122,9 @@ var Looper = function(measureSizeArg){
             }
 
             power = true;
-        });
+        }, function(e) {
+			alert("Error: " + e);
+		});
     }
 
     looper.powerOff = function(){

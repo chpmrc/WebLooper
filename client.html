@@ -13,13 +13,13 @@
 
     <h5>Room: </h5><input type="text" id="connid"/>
     <div>
-        <input type="button" value="Connect"/>
+        <input type="button" value="Connect" id="connectBtn">
     </div>
     <div>
         <video id="playback" controls="controls" autoplay="autoplay" height="50px" width="300px"/>
     </div>
     
-
+<script src="http://cdn.peerjs.com/0.3/peer.min.js"></script>
 <script>
 
         var peer = new Peer({key: 'bwipa5argudf5hfr', debug: 4});
