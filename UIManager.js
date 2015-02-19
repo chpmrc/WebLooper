@@ -132,8 +132,9 @@ var UIManager = function(){
 
     }.bind(this));
 
-    window.addEventListener('mousewheel', function(evt){
+    window.addEventListener('wheel', function(evt){
         // Detect scrolling direction
+        console.log(evt);
         var direction = evt.wheelDeltaY;
         var keys = keyCodes.gains;
         var trackIndex;

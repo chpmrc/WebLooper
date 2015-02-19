@@ -36,9 +36,12 @@
                     receiver.connect(context.destination);
                     playback.src = URL.createObjectURL(remoteStream);
 
-                });
-                
-            });
+                }); 
+            },
+                function() {
+                    alert("Error: could not access getUserMedia");
+                }
+            );
         });
         
     </script>

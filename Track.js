@@ -220,7 +220,7 @@ var Track = function(looper, trackNumber){
         sourceNodes.push(context.createBufferSource());
     }
 
-    nodes.gain = context.createGainNode();
+    nodes.gain = context.createGain();
 
 }
 

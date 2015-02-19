@@ -74,11 +74,12 @@ var Looper = function(measureSizeArg){
 
     // Web Audio setup
     context = new AudioContext();
+    console.log(context);
 
     nodes.destination = context.destination;
-    nodes.gain = context.createGainNode();
+    nodes.gain = context.createGain();
     nodes.filter = context.createBiquadFilter();
-    nodes.recordingSource = context.createGainNode();
+    nodes.recordingSource = context.createGain();
     nodes.streamer = context.createMediaStreamDestination();
 
     nodes.gain.connect(nodes.destination);
