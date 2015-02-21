@@ -5,7 +5,7 @@ A loop recorder made with Web Audio and WebRTC. Inspired by Boss RC50 and Roland
 
 ## Demo
 
-weblooper.hackandstack.com
+http://weblooper.hackandstack.com
 
 ## UI Screenshot:
 
